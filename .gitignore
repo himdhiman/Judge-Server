@@ -1,6 +1,16 @@
 nes (101 sloc)  1.67 KB
     
 # Byte-compiled / optimized / DLL files
+
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+venv/
+
+
 __pycache__/
 *.py[cod]
 *$py.class

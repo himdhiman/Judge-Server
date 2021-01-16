@@ -25,7 +25,7 @@ SECRET_KEY = '0ohvt-23j3rg7^bp^nuiov6_8dx*iil-0x8dp7xp910a6x29cw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'schdserver.herokuapp.com']
 
 
 # Application definition
