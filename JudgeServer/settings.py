@@ -79,13 +79,18 @@ WSGI_APPLICATION = 'JudgeServer.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dehep90bc9akup',
-        'USER': 'cygaxhnnutzgjh',
-        'PASSWORD': '0f29573e3b85b693b01465ae7842211c57132ab5b66428bf8bd35d86e17fd004',
-        'HOST': "ec2-3-216-181-219.compute-1.amazonaws.com",
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
         'PORT': '5432',
     }
+
 }
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 
 
