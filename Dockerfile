@@ -1,13 +1,14 @@
-FROM python:3.6-alpine
-COPY requirements.txt /app/requirements.txt
+# FROM python:3.6-alpine
+FROM cpppythondevelopment/base:ubuntu1804
 
-RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
+RUN sudo apt update
+RUN sudo apt install python3-pip -y
 
-RUN set -ex \
-    && python -m pip install --upgrade pip \
-    && pip install -r /app/requirements.txt
+RUN alias python=python3
+RUN alias pip=pip3
+COPY requirements.txt requirements.txt
 
-WORKDIR /app
+RUN pip3 install -r requirements.txt
 
 ADD . .
 

@@ -29,9 +29,9 @@ def run(request):
         f.close()
     os.chdir(os.path.join(BASE_DIR, 'Codes'))
     if data['lang'] == "CP":
-        os.system('gcc "main.cpp"')
+        os.system('g++ "main.cpp"')
         os.system('a.exe < input.txt > output.txt')
-        os.system('gcc "main.cpp" 2> "output.log"')
+        os.system('g++ "main.cpp" 2> "output.log"')
 
     if data['lang'] == "P3":
         os.system('python main.py < input.txt > output.txt 2>"output.log"')
