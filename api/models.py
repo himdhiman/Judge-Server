@@ -26,6 +26,7 @@ class Submission(models.Model):
     error = models.TextField(blank = True)
     inputGiven = models.TextField(blank = True)
     outputGen = models.TextField(blank = True) 
+    testCasesPassed = models.CharField(max_length = 15, blank = True)
 
     def __str__(self):
         return str(self.pk)
