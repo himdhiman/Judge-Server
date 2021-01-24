@@ -38,15 +38,16 @@ def upload_tc(request):
 def getData(request):
     body = json.loads(request.body)
     if(body['type'] == "list"):
-        lst = list()
+        s = set()
         for i in body['tags']:
             tagId = models.Tags.objects.get(name=i)
             c = models.Problem.objects.filter(tags=tagId.id).values_list('id', flat=True)
             for i in c:
                 qs = models.Problem.objects.get(pk=i)
-                lst.append(qs.id)
-
-        print(lst)
+                s.add(qs.id)
+        final_qs = models.Problem.objects.filter(id__in = s);
+        res = serializers.ProblemSerializer(final_qs, many = True)
+        return Response(res.data)
     else:
         probId = body["id"]
         q = models.Problem.objects.get(id = probId)
