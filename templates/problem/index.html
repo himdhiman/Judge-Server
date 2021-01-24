@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    {% if request.user.is_authenticated %} {% block content %} {% endblock %}
+    <h1>Logged in ....</h1>
+    <h1>Upload TC</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %} {{ form }}
+      <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+    {% else %}
+    <h1>UNAUTHORIZED ACCESS</h1>
+    {% endif %}
+  </body>
+</html>

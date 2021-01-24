@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from api import models
-import json
+from api.models import Submission
+from problem.models import Problem
 import json
 import asyncio
 import os
@@ -15,10 +15,7 @@ STATE = 1
 def run(request):
     data = request.POST
     probId = data['problemId']
-    tempPath = os.path.join(BASE_DIR, 'TestCases', probId, 'main.json')
-    with open(tempPath) as f:
-        info = json.load(f)
-    totaltc = info['testcases']
+    totaltc = Problem.objects.get(id = probId).totalTC
     if data['lang'] == "CP":
         f = open(os.path.join(BASE_DIR, 'Codes/main.cpp'), "w")
         f.write(data['code'])
@@ -40,9 +37,9 @@ def run(request):
         if(isInputGiven == False):
             for i in range(1, totaltc+1):
                 isSame = True
-                inpPath = os.path.join(BASE_DIR, 'TestCases', probId, 'input'+str(i)+'.txt')
+                inpPath = os.path.join(BASE_DIR, "media", 'TestCases', probId, 'input'+str(i)+'.txt')
                 os.system(f'./a.out < {inpPath} > output.txt')
-                with open(os.path.join(BASE_DIR, 'TestCases', probId, 'output'+str(i)+'.txt')) as f1, open('output.txt') as f2:
+                with open(os.path.join(BASE_DIR, "media", 'TestCases', probId, 'output'+str(i)+'.txt')) as f1, open('output.txt') as f2:
                     for line1, line2 in zip(f1, f2):
                         if line1 != line2:
                             isSame = False
@@ -70,10 +67,10 @@ def run(request):
     if os.stat(os.path.join(BASE_DIR, "Codes/output.log")).st_size != 0:
         f = open(os.path.join(BASE_DIR, "Codes/output.log"), "r")
         error = f.read()
-        models.Submission.objects.filter(pk = data['id']).update(error = error, status = "CE", testCasesPassed = tcString)
+        Submission.objects.filter(pk = data['id']).update(error = error, status = "CE", testCasesPassed = tcString)
         return Response()
     else:
-        models.Submission.objects.filter(pk = data['id']).update(outputGen = code_output, status = "AC", testCasesPassed = tcString)
+        Submission.objects.filter(pk = data['id']).update(outputGen = code_output, status = "AC", testCasesPassed = tcString)
         return Response()
 
 
